@@ -162,8 +162,9 @@ for i = 2 : len
     % пока не найден хотя бы один локальный минимум, считаем его значением
     % текущее минимальное значение
     if (pressureMinFounded == 0) && (pressure(1,i) < pressureMin(1,1))
-        pressureMin = [pressure(1,i)];
+        pressureMin = pressure(1,i);
     end
+
 
 %     i
 %     pressure(1,i)
@@ -182,9 +183,15 @@ for i = 2 : len
     pressureTypeFlag = 0;
     % поиск значений давления отличающегося от максимального на заданную
     % погрешность
-    if (abs((max_elem - pressure(1,i))/max_elem) < psi) 
-        % устанавливаем флаг максимального давления
-        pressureTypeFlag = 1;
+    if(length(pressurePeak) > 0)
+        if (abs((mean(pressurePeak) - pressure(1,i))/mean(pressurePeak)) < psi)
+            % устанавливаем флаг максимального давления
+            pressureTypeFlag = 1;
+        end
+    else
+        if (abs((max_elem-pressure(1,i))/max_elem) < psi)
+            pressureTypeFlag = 1;
+        end
     end
     % поиск значений давления отличающихсф от минимального на заданную
     % погрешность
