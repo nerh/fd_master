@@ -95,6 +95,7 @@ pressurePeakTime = [];
 pressureMin = [inf];
 % признак установки минимума
 pressureMinFounded = 0;
+pressureMaxFounded = 0;
 
 % обработка входных параметров
 if (nargin == 7) && (~isempty(levelCrossingValue))
@@ -183,11 +184,11 @@ for i = 2 : len
     pressureTypeFlag = 0;
     % поиск значений давления отличающегося от максимального на заданную
     % погрешность
-    if(length(pressurePeak) > 0)
-        if (abs((mean(pressurePeak) - pressure(1,i))/mean(pressurePeak)) < psi)
-            % устанавливаем флаг максимального давления
-            pressureTypeFlag = 1;
-        end
+    if(pressureMaxFounded == 1)
+       if (abs((mean(pressurePeak) - pressure(1,i))/mean(pressurePeak)) < psi)
+           % устанавливаем флаг максимального давления
+           pressureTypeFlag = 1;
+       end
     else
         if (abs((max_elem-pressure(1,i))/max_elem) < psi)
             pressureTypeFlag = 1;
@@ -249,7 +250,8 @@ for i = 2 : len
             if (length(injectionStartTime) > 0)
                 injectionBeforeTime = [injectionBeforeTime (max_loc_time - last(injectionStartTime))];
             end
-
+            
+            pressureMaxFounded = 1;
             
         else
             % записываем данные о максимальном давлении
@@ -267,6 +269,7 @@ for i = 2 : len
 
             pressureLevelTime = [];
             pressureLevelPeak = [];
+            pressureMaxFounded = 0;
         end
         
     end
