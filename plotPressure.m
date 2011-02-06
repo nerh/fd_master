@@ -1,12 +1,29 @@
- pressure = load('/home/nerh/sent/ConvertedData/Режим_1/Pressure_2.mat');
- speed = load('/home/nerh/sent/ConvertedData/Режим_1/Speed_2_interp.mat');
+%% Объединие данных с отметчика и датчиков давления
+%% Загрузка исходных данных 
+pressure = load('/home/nerh/sent/ConvertedData/Режим_1/Pressure_2.mat');
+speed = load('/home/nerh/sent/ConvertedData/Режим_1/Speed_2_interp.mat');
  
- pressureParams = getPressureParams(pressure.loadedFile.data(:,3)', 0.5, 25000, 30,10,1);
- speedParams = getSpeedParams(speed.loadedFile.data(:,3)',speed.loadedFile.data(:,4)',25000,1440);
+%% Обрабатка исходных данных
+%Получаем информацию о давлении
+pressureParams = getPressureParams(pressure.loadedFile.data(:,3)', 0.5, 25000, 30,10,1);
+%Получаем информацию о скорости, ускорении, а также отображение времени на
+%угол поворота
+speedParams = getSpeedParams(speed.loadedFile.data(:,3)',speed.loadedFile.data(:,4)',25000,1440);
 
-figure
+%% Постороение графика с заменой времени на угол поворота
+screenSize = get(0,'ScreenSize');
+f1 = figure;
 hold on
-
 plot(speedParams.angle_time.angle(1:length(pressure.loadedFile.data(:,3))), pressure.loadedFile.data(:,3))
+stem(speedParams.angle_time.angle(speedParams.circleBeginTime), zeros(length(speedParams.circleBeginTime))...
+    +max(pressure.loadedFile.data(:,3)),'r')
 set(gca,'XTick',0:720:speedParams.angle_time.angle(end))
 hold off
+set(f1,'Position',[0 0 screenSize(3), screenSize(4)]);
+figure
+plot(speedParams.speed_absc,speedParams.speed)
+title('speed')
+figure
+plot(speedParams.acceleration_absc,speedParams.acceleration)
+title('acceleration')
+    
