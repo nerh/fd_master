@@ -1,7 +1,9 @@
-%% Объединие данных с отметчика и датчиков давления
+%% Объединение данных с отметчика и датчиков давления
+% При получении скорости и ускорения в данном случае расчет производился по
+% времени между пиками отметчика, а не времени между фронтами
 %% Загрузка исходных данных 
-pressure = load('/home/nerh/sent/ConvertedData/Режим_1/Pressure_2.mat');
-speed = load('/home/nerh/sent/ConvertedData/Режим_1/Speed_2_interp.mat');
+pressure = load('/home/nerh/sent/ConvertedData/Режим_2/Pressure_2.mat');
+speed = load('/home/nerh/sent/ConvertedData/Режим_2/Speed_2_interp.mat');
  
 %% Обрабатка исходных данных
 %Получаем информацию о давлении
