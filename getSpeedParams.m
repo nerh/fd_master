@@ -40,6 +40,14 @@ circleEndTime = [];
 mSpeed = [];
 %мгновенное ускорение
 mAcc = [];
+%мгновенная скорость по времени между передними фронтами
+mSpeedLE = [];
+%мгновенное ускорение по времени между передними фронтами
+mAccLE = [];
+%мгновенная скорость по времени между задними фронтами
+mSpeedTE = [];
+%мгновенное ускорение по времени между задними фронтами
+mAccTE = [];
 
 len = length(marker);
 dt = 1/freq;
@@ -50,6 +58,8 @@ zeroCrossings = 0;
 %время между фронтами
 leTime = []; %le = leading edge
 teTime = []; %te = tailing edge
+leAbsc = [];
+teAbsc = [];
 %время обнаружения последнего фронта
 lastLE = 0;
 lastTE = 0;
@@ -80,10 +90,12 @@ for i = 2:len
             %Записываем время между передними фронтами
             leTime = [leTime (i - lastLE)];
             lastLE = i;
+            leAbsc = [leAbsc i];
         else
             %Записываем время между задними фронтами
             teTime = [teTime (i - lastTE)];
             lastTE = i;
+            %teAbsc = [teAbsc i];
         end
        %% считаем количество пересечений
         zeroCrossings = zeroCrossings+1;
@@ -100,7 +112,7 @@ for i = 2:len
         end
         
         %% Записывем значения угла в текущий момент времени
-        crossingTime = [crossingTime i];
+        %crossingTime = [crossingTime i];
         angle(1,i) = zeroCrossings*markAngle;    
 
         %% Ищем локальный максимум
@@ -126,14 +138,16 @@ end
 
 %% Расчет мгновенной скорости и ускорения
     %% Находим мгновенную скорость
-[sx mSpeed] = diff_pp(crossingTime*dt,angle(crossingTime));
+%[sx mSpeed] = diff_pp(crossingTime*dt,angle(crossingTime));
+%[sxTE mSpeedTE] = diff_pp(teAbsc*dt,angle(teAbsc));
+[sxLE mSpeedLE] = diff_pp(leAbsc*dt,angle(leAbsc));
 
     %% Определяем значение угла поворота для любого момента времени
 for i = 2:len
    if isnan(angle(i)) 
        %находим момент времени наиболее близкий к текущему
-       [~, closesTime] = min(abs(sx-i*dt));
-       angle(i) = angle(i-1) + mSpeed(closesTime) * dt;
+       [~, closestTime] = min(abs(sxLE-i*dt));
+       angle(i) = angle(i-1) + mSpeedLE(closestTime) * dt;
    end
 end
 
@@ -141,24 +155,51 @@ end
 angle = angle - initialCrossingsCount*markAngle;
 
     %% находим ускорение
-[sx_unique n] = unique(sx,'first');
-mSpeed_unique = mSpeed(n);
-[ax mAcc] = diff_pp(sx_unique, mSpeed_unique);
+[sxLE_unique n] = unique(sxLE,'first');
+mSpeedLE_unique = mSpeedLE(n);
+[axLE mAccLE] = diff_pp(sxLE_unique, mSpeedLE_unique);
+
+%[sxTE_unique n] = unique(sxTE,'first');
+%mSpeedTE_unique = mSpeedTE(n);
+%[axTE mAccTE] = diff_pp(sxTE_unique, mSpeedTE_unique);
 
 %% Запись расчитанных характеристик
 result.angle_time.angle = angle;
 result.angle_time.time = (1:length(marker))*dt;
-result.speed = mSpeed;
-result.speed_absc = sx;
-result.acceleration = mAcc;
-result.acceleration_absc = ax;
+result.speed = mSpeedLE;
+result.speed_absc = sxLE;
+result.acceleration = mAccLE;
+result.acceleration_absc = axLE;
 result.leTime = leTime * dt;
+result.leAbsc = leAbsc;
 result.teTime = teTime * dt;
 result.circleBeginTime = circleBeginTime;
-result.circleEndTime = circleEndTime;
 
+%% Визуализация результатов
 % figure
-% plot(sx,mSpeed)
+% hold on
+% %plot(sx,mSpeed,'g')
+% plot(sxLE,mSpeedLE,'r')
+% plot(sxTE,mSpeedTE,'g')
+% title('speed')
+% set(gca,'XTick',0:720:angle(end))
+% hold off
+% 
+% figure 
+% hold on
+% plot(axLE,mAccLE,'r')
+% plot(axTE,mAccTE,'g')
+% title('acceleration')
+% set(gca,'XTick',0:720:angle(end))
+% hold off
+% 
+% figure 
+% hold on
+% plot(angle(leAbsc),leTime*dt,'r')
+% plot(angle(teAbsc),teTime*dt,'g')
+% title('time(angle)')
+% set(gca,'XTick',0:720:angle(end))
+% hold off
 % 
 % figure
 % plot(ax,mAcc)
