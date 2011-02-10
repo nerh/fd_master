@@ -2,9 +2,8 @@
 % При получении скорости и ускорения в данном случае расчет производился по
 % времени между пиками отметчика, а не времени между фронтами
 %% Загрузка исходных данных 
-pressure = load('/home/nerh/sent/ConvertedData/Режим_1/Pressure_7.mat');
-speed = load('/home/nerh/sent/ConvertedData/Режим_1/Speed_7_interp.mat');
- 
+pressure = load('/home/nerh/sent/ConvertedData/Режим_2/Pressure_7.mat');
+speed = load('/home/nerh/sent/ConvertedData/Режим_2/Speed_7_interp.mat');
 %% Обрабатка исходных данных
 %Получаем информацию о давлении
 pressureParams = getPressureParams(pressure.loadedFile.data(:,3)', 0.5, pressure.loadedFile.frequency, 30,10,1);
@@ -20,17 +19,18 @@ plot(speedParams.angle_time.angle(1:length(pressure.loadedFile.data(:,3))), pres
 stem(speedParams.angle_time.angle(speedParams.circleBeginTime), zeros(length(speedParams.circleBeginTime))...
     +max(pressure.loadedFile.data(:,3)),'r')
 set(gca,'XTick',0:720:speedParams.angle_time.angle(end))
+title('Pressure')
 hold off
 set(f1,'Position',[0 0 screenSize(3), screenSize(4)]);
 figure
 plot(speedParams.speed_absc,speedParams.speed*(2*pi/360))
-title('speed')
+title('Speed')
 figure
 plot(speedParams.acceleration_absc,speedParams.acceleration*(2*pi/360))
-title('acceleration')
+title('Acceleration')
 figure
 hold on
 plot(speedParams.angle_time.angle(speedParams.leAbsc),speedParams.leTime)
-set(gca,'XTick',0:2*720:speedParams.angle_time.angle(end))
+set(gca,'XTick',0:4*720:speedParams.angle_time.angle(end))
+title('Time')
 hold off
-mean(speedParams.speed)
