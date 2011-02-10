@@ -1,0 +1,143 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      --><title>&#1054;&#1073;&#1098;&#1077;&#1076;&#1080;&#1085;&#1077;&#1085;&#1080;&#1077; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1089; &#1086;&#1090;&#1084;&#1077;&#1090;&#1095;&#1080;&#1082;&#1072; &#1080; &#1076;&#1072;&#1090;&#1095;&#1080;&#1082;&#1086;&#1074; &#1076;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1103;</title><meta name="generator" content="MATLAB 7.10"><meta name="date" content="2011-02-10"><meta name="m-file" content="plotPressure"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1>&#1054;&#1073;&#1098;&#1077;&#1076;&#1080;&#1085;&#1077;&#1085;&#1080;&#1077; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1089; &#1086;&#1090;&#1084;&#1077;&#1090;&#1095;&#1080;&#1082;&#1072; &#1080; &#1076;&#1072;&#1090;&#1095;&#1080;&#1082;&#1086;&#1074; &#1076;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1103;</h1><!--introduction--><p>&#1055;&#1088;&#1080; &#1087;&#1086;&#1083;&#1091;&#1095;&#1077;&#1085;&#1080;&#1080; &#1089;&#1082;&#1086;&#1088;&#1086;&#1089;&#1090;&#1080; &#1080; &#1091;&#1089;&#1082;&#1086;&#1088;&#1077;&#1085;&#1080;&#1103; &#1074; &#1076;&#1072;&#1085;&#1085;&#1086;&#1084; &#1089;&#1083;&#1091;&#1095;&#1072;&#1077; &#1088;&#1072;&#1089;&#1095;&#1077;&#1090; &#1087;&#1088;&#1086;&#1080;&#1079;&#1074;&#1086;&#1076;&#1080;&#1083;&#1089;&#1103; &#1087;&#1086; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1080; &#1084;&#1077;&#1078;&#1076;&#1091; &#1087;&#1080;&#1082;&#1072;&#1084;&#1080; &#1086;&#1090;&#1084;&#1077;&#1090;&#1095;&#1080;&#1082;&#1072;, &#1072; &#1085;&#1077; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1080; &#1084;&#1077;&#1078;&#1076;&#1091; &#1092;&#1088;&#1086;&#1085;&#1090;&#1072;&#1084;&#1080;</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">&#1047;&#1072;&#1075;&#1088;&#1091;&#1079;&#1082;&#1072; &#1080;&#1089;&#1093;&#1086;&#1076;&#1085;&#1099;&#1093; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;</a></li><li><a href="#2">&#1054;&#1073;&#1088;&#1072;&#1073;&#1072;&#1090;&#1082;&#1072; &#1080;&#1089;&#1093;&#1086;&#1076;&#1085;&#1099;&#1093; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;</a></li><li><a href="#3">&#1055;&#1086;&#1089;&#1090;&#1086;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1072; &#1089; &#1079;&#1072;&#1084;&#1077;&#1085;&#1086;&#1081; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1080; &#1085;&#1072; &#1091;&#1075;&#1086;&#1083; &#1087;&#1086;&#1074;&#1086;&#1088;&#1086;&#1090;&#1072;</a></li></ul></div><h2>&#1047;&#1072;&#1075;&#1088;&#1091;&#1079;&#1082;&#1072; &#1080;&#1089;&#1093;&#1086;&#1076;&#1085;&#1099;&#1093; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;<a name="1"></a></h2><pre class="codeinput">pressure = load(<span class="string">'/home/nerh/sent/ConvertedData/&#1056;&#1077;&#1078;&#1080;&#1084;_2/Pressure_7.mat'</span>);
+speed = load(<span class="string">'/home/nerh/sent/ConvertedData/&#1056;&#1077;&#1078;&#1080;&#1084;_2/Speed_7_interp.mat'</span>);
+</pre><h2>&#1054;&#1073;&#1088;&#1072;&#1073;&#1072;&#1090;&#1082;&#1072; &#1080;&#1089;&#1093;&#1086;&#1076;&#1085;&#1099;&#1093; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;<a name="2"></a></h2><pre class="codeinput"><span class="comment">%&#1055;&#1086;&#1083;&#1091;&#1095;&#1072;&#1077;&#1084; &#1080;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1102; &#1086; &#1076;&#1072;&#1074;&#1083;&#1077;&#1085;&#1080;&#1080;</span>
+pressureParams = getPressureParams(pressure.loadedFile.data(:,3)', 0.5, pressure.loadedFile.frequency, 30,10,1);
+<span class="comment">%&#1055;&#1086;&#1083;&#1091;&#1095;&#1072;&#1077;&#1084; &#1080;&#1085;&#1092;&#1086;&#1088;&#1084;&#1072;&#1094;&#1080;&#1102; &#1086; &#1089;&#1082;&#1086;&#1088;&#1086;&#1089;&#1090;&#1080;, &#1091;&#1089;&#1082;&#1086;&#1088;&#1077;&#1085;&#1080;&#1080;, &#1072; &#1090;&#1072;&#1082;&#1078;&#1077; &#1086;&#1090;&#1086;&#1073;&#1088;&#1072;&#1078;&#1077;&#1085;&#1080;&#1077; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1080; &#1085;&#1072;</span>
+<span class="comment">%&#1091;&#1075;&#1086;&#1083; &#1087;&#1086;&#1074;&#1086;&#1088;&#1086;&#1090;&#1072;</span>
+speedParams = getSpeedParams(speed.loadedFile.data(:,3)',speed.loadedFile.data(:,4)',speed.loadedFile.frequency,1440);
+</pre><pre class="codeoutput">Results:
+pressure peaks  -&gt; min: 1.64   max: 1.69   mean: 1.67   var: 0.0002     %: 0.91
+time cycles     -&gt; min: 0.2849 max: 0.2863 mean: 0.2857 var: 0.00000017 %: 0.14
+injection peaks -&gt; min: -0.08   max: 1.63   mean: 1.15   var: 0.0419     %: 17.73
+injection time  -&gt; min: 0.0000 max: 0.6416 mean: 0.0347 var: 0.01326723 %: 331.52
+inj&amp;peak time   -&gt; min: -0.0030 max: 0.3533 mean: 0.0783 var: 0.01910782 %: 176.47
+dying peak      -&gt; min: -0.08   max: 1.66   mean: 1.15   var: 0.0434     %: 18.07
+dying time      -&gt; min: 0.0000 max: 0.8504 mean: 0.0450 var: 0.02174699 %: 327.56
+injection durat -&gt; min: 0.0000 max: 0.0024 mean: 0.0001 var: 0.00000013 %: 387.67
+</pre><img vspace="5" hspace="5" src="plotPressure_01.png" alt=""> <h2>&#1055;&#1086;&#1089;&#1090;&#1086;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1072; &#1089; &#1079;&#1072;&#1084;&#1077;&#1085;&#1086;&#1081; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1080; &#1085;&#1072; &#1091;&#1075;&#1086;&#1083; &#1087;&#1086;&#1074;&#1086;&#1088;&#1086;&#1090;&#1072;<a name="3"></a></h2><pre class="codeinput">screenSize = get(0,<span class="string">'ScreenSize'</span>);
+f1 = figure;
+hold <span class="string">on</span>
+plot(speedParams.angle_time.angle(1:length(pressure.loadedFile.data(:,3))), pressure.loadedFile.data(:,3))
+stem(speedParams.angle_time.angle(speedParams.circleBeginTime), zeros(length(speedParams.circleBeginTime))<span class="keyword">...</span>
+    +max(pressure.loadedFile.data(:,3)),<span class="string">'r'</span>)
+set(gca,<span class="string">'XTick'</span>,0:720:speedParams.angle_time.angle(end))
+title(<span class="string">'Pressure'</span>)
+hold <span class="string">off</span>
+set(f1,<span class="string">'Position'</span>,[0 0 screenSize(3), screenSize(4)]);
+figure
+plot(speedParams.speed_absc,speedParams.speed*(2*pi/360))
+title(<span class="string">'Speed'</span>)
+figure
+plot(speedParams.acceleration_absc,speedParams.acceleration*(2*pi/360))
+title(<span class="string">'Acceleration'</span>)
+figure
+hold <span class="string">on</span>
+plot(speedParams.angle_time.angle(speedParams.leAbsc),speedParams.leTime)
+set(gca,<span class="string">'XTick'</span>,0:4*720:speedParams.angle_time.angle(end))
+title(<span class="string">'Time'</span>)
+hold <span class="string">off</span>
+</pre><img vspace="5" hspace="5" src="plotPressure_02.png" alt=""> <img vspace="5" hspace="5" src="plotPressure_03.png" alt=""> <img vspace="5" hspace="5" src="plotPressure_04.png" alt=""> <img vspace="5" hspace="5" src="plotPressure_05.png" alt=""> <p class="footer"><br>
+      Published with MATLAB&reg; 7.10<br></p></div><!--
+##### SOURCE BEGIN #####
+%% Объединение данных с отметчика и датчиков давления
+% При получении скорости и ускорения в данном случае расчет производился по
+% времени между пиками отметчика, а не времени между фронтами
+%% Загрузка исходных данных 
+pressure = load('/home/nerh/sent/ConvertedData/Режим_2/Pressure_7.mat');
+speed = load('/home/nerh/sent/ConvertedData/Режим_2/Speed_7_interp.mat');
+%% Обрабатка исходных данных
+%Получаем информацию о давлении
+pressureParams = getPressureParams(pressure.loadedFile.data(:,3)', 0.5, pressure.loadedFile.frequency, 30,10,1);
+%Получаем информацию о скорости, ускорении, а также отображение времени на
+%угол поворота
+speedParams = getSpeedParams(speed.loadedFile.data(:,3)',speed.loadedFile.data(:,4)',speed.loadedFile.frequency,1440);
+
+%% Постороение графика с заменой времени на угол поворота
+screenSize = get(0,'ScreenSize');
+f1 = figure;
+hold on
+plot(speedParams.angle_time.angle(1:length(pressure.loadedFile.data(:,3))), pressure.loadedFile.data(:,3))
+stem(speedParams.angle_time.angle(speedParams.circleBeginTime), zeros(length(speedParams.circleBeginTime))...
+    +max(pressure.loadedFile.data(:,3)),'r')
+set(gca,'XTick',0:720:speedParams.angle_time.angle(end))
+title('Pressure')
+hold off
+set(f1,'Position',[0 0 screenSize(3), screenSize(4)]);
+figure
+plot(speedParams.speed_absc,speedParams.speed*(2*pi/360))
+title('Speed')
+figure
+plot(speedParams.acceleration_absc,speedParams.acceleration*(2*pi/360))
+title('Acceleration')
+figure
+hold on
+plot(speedParams.angle_time.angle(speedParams.leAbsc),speedParams.leTime)
+set(gca,'XTick',0:4*720:speedParams.angle_time.angle(end))
+title('Time')
+hold off
+##### SOURCE END #####
+--></body></html>
