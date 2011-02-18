@@ -12,12 +12,11 @@ function [ result ] = getSpeedParams( marker, TDC, freq, marksPerCircle )
 %Выходные значения:
 %   result - структура содержащая полученную информацию
 %       result.circleBeginTime - абсцисса начала каждого цикла ()
-%       result.circleEndTime - абсцисса конца каждого цикла
 %       result.angle_time - структура, содержащая сопоставление угла
 %                           поворота врмени.
-%       result.speed - значение мгновенной скорости
+%       result.speed - значение мгновенной скорости (рад/сек)
 %       result.speed_absc - значения абсциссы мгновенной скорости
-%       result.acceleration - мгновенное значение ускорения
+%       result.acceleration - мгновенное значение ускорения (рад/сек)
 %       result.acceleration_absc - значения абсциссы ускорения
 %       result.leTime - время между передними фронтами отметчика
 %       result.teTime - время между задними фронтами отметчика
@@ -34,7 +33,6 @@ crossingTime = [];
 
 %границы циклов (между двумя пиками отметчика)
 circleBeginTime = [1];
-circleEndTime = [];
 
 %мгновенная скорость
 mSpeed = [];
@@ -42,8 +40,10 @@ mSpeed = [];
 mAcc = [];
 %мгновенная скорость по времени между передними фронтами
 mSpeedLE = [];
+mSpeedAngle = [];
 %мгновенное ускорение по времени между передними фронтами
 mAccLE = [];
+mAccAngle = [];
 %мгновенная скорость по времени между задними фронтами
 mSpeedTE = [];
 %мгновенное ускорение по времени между задними фронтами
@@ -108,7 +108,6 @@ for i = 2:len
         %% определяем границы циклов
         if (mod(zeroCrossings-initialCrossingsCount,2*marksPerCircle) == 0)
            circleBeginTime = [circleBeginTime i];
-           circleEndTime = [circleEndTime i-1];
         end
         
         %% Записывем значения угла в текущий момент времени
@@ -130,7 +129,6 @@ for i = 2:len
         if zeroCrossings == 2*marksPerCircle
             initialCrossingsCount = crossingsCountForLocalMax;
             circleBeginTime = crossingTimeBeforeTDC;
-            circleEndTime = [];
             localMaxFounded = 1;
         end
     end
@@ -152,7 +150,7 @@ for i = 2:len
 end
 
     %% устанавливаем нулевым угол соответсвующий началу первого цикла
-angle = angle - initialCrossingsCount*markAngle;
+%angle = angle - initialCrossingsCount*markAngle;
 
     %% находим ускорение
 [sxLE_unique n] = unique(sxLE,'first');
@@ -166,9 +164,10 @@ mSpeedLE_unique = mSpeedLE(n);
 %% Запись расчитанных характеристик
 result.angle_time.angle = angle;
 result.angle_time.time = (1:length(marker))*dt;
-result.speed = mSpeedLE;
+result.speed = mSpeedLE*pi/180;
 result.speed_absc = sxLE;
-result.acceleration = mAccLE;
+result.speed_angle = mSpeedAngle;
+result.acceleration = mAccLE*pi/180;
 result.acceleration_absc = axLE;
 result.leTime = leTime * dt;
 result.leAbsc = leAbsc;

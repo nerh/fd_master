@@ -308,9 +308,9 @@ for i = 2 : len
             currVarType = 0;
         end
         % записываем значение мат ожидания и дисперсии по производной
-        %windowDiffVar = [windowDiffVar, currVar];
+        windowDiffVar = [windowDiffVar, currVar];
         %windowDiffMean = [windowDiffMean, currMean];
-        %windowDiffVarTime = [windowDiffVarTime, i];
+        windowDiffVarTime = [windowDiffVarTime, i];
     end   
     
     % если мы достигли минимального давления то ждем следующего впрыска
@@ -424,6 +424,11 @@ if (nargin == 6)
         stem(result.injectionStartTime, result.injectionStart, 'r');
         stem(result.injectionFinishTime,result.injectionFinish, 'b');
         stem(result.pressurePeakTime,result.pressurePeak, 'g');
+        hold off
+        
+        figure 
+        hold on
+        plotyy((1:len)*dt,pressure,windowDiffVarTime*dt, windowDiffVar)
         hold off
         
     end
