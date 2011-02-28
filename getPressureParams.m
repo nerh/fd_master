@@ -426,10 +426,10 @@ if (nargin == 6)
         stem(result.pressurePeakTime,result.pressurePeak, 'g');
         hold off
         
-        figure 
-        hold on
-        plotyy((1:len)*dt,pressure,windowDiffVarTime*dt, windowDiffVar)
-        hold off
+%         figure 
+%         hold on
+%         plotyy((1:len)*dt,pressure,windowDiffVarTime*dt, windowDiffVar)
+%         hold off
         
     end
 end

@@ -19,6 +19,9 @@ switch nargin
         level = 0;
         top = 5;
         bottom = -5;
+    case 3
+        top = 5;
+        bottom = -5;
 end
 
 restoredMarkerTime= [];

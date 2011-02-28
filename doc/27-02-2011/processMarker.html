@@ -1,0 +1,356 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML is auto-generated from an M-file.
+To make changes, update the M-file and republish this document.
+      --><title>&#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1086;&#1074; &#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1103; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1080; &#1084;&#1077;&#1078;&#1076;&#1091; &#1087;&#1077;&#1088;&#1077;&#1076;&#1085;&#1080;&#1084;&#1080; &#1092;&#1088;&#1086;&#1085;&#1090;&#1072;&#1084;&#1080; &#1074;&#1086;&#1083;&#1085;&#1099;</title><meta name="generator" content="MATLAB 7.10"><meta name="date" content="2011-02-27"><meta name="m-file" content="processMarker"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><h1>&#1055;&#1086;&#1089;&#1090;&#1088;&#1086;&#1077;&#1085;&#1080;&#1077; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1086;&#1074; &#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1103; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1080; &#1084;&#1077;&#1078;&#1076;&#1091; &#1087;&#1077;&#1088;&#1077;&#1076;&#1085;&#1080;&#1084;&#1080; &#1092;&#1088;&#1086;&#1085;&#1090;&#1072;&#1084;&#1080; &#1074;&#1086;&#1083;&#1085;&#1099;</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">&#1086;&#1090;&#1084;&#1077;&#1090;&#1095;&#1080;&#1082;&#1072;</a></li><li><a href="#2">&#1054;&#1073;&#1088;&#1072;&#1073;&#1086;&#1090;&#1082;&#1072; &#1074;&#1089;&#1077;&#1093; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1089; &#1086;&#1090;&#1084;&#1077;&#1090;&#1095;&#1080;&#1082;&#1072;</a></li><li><a href="#4">&#1054;&#1073;&#1088;&#1072;&#1073;&#1086;&#1090;&#1082;&#1072; &#1074;&#1089;&#1077;&#1093; &#1092;&#1072;&#1081;&#1083;&#1086;&#1074; &#1074; &#1090;&#1077;&#1082;&#1091;&#1097;&#1077;&#1084; &#1082;&#1072;&#1090;&#1072;&#1083;&#1086;&#1075;&#1077;</a></li><li><a href="#5">&#1042;&#1099;&#1074;&#1086;&#1076; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1086;&#1074;, &#1093;&#1072;&#1088;&#1072;&#1082;&#1090;&#1077;&#1088;&#1080;&#1079;&#1091;&#1102;&#1097;&#1080;&#1093; &#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1077; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1080; &#1076;&#1083;&#1103;</a></li><li><a href="#6">&#1090;&#1077;&#1082;&#1091;&#1097;&#1077;&#1075;&#1086; &#1088;&#1077;&#1078;&#1080;&#1084;&#1072;</a></li><li><a href="#8">&#1042;&#1099;&#1074;&#1086;&#1076; &#1075;&#1080;&#1089;&#1090;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1099; &#1076;&#1083;&#1103; &#1085;&#1086;&#1088;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1085;&#1099;&#1093; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;, &#1089;&#1086;&#1073;&#1088;&#1072;&#1085;&#1085;&#1099;&#1093; &#1076;&#1083;&#1103; &#1074;&#1089;&#1077;&#1093; &#1088;&#1077;&#1078;&#1080;&#1084;&#1086;&#1074;</a></li></ul></div><h2>&#1086;&#1090;&#1084;&#1077;&#1090;&#1095;&#1080;&#1082;&#1072;<a name="1"></a></h2><pre class="codeinput">mainPath = <span class="string">'/home/nerh/sent/ConvertedData/'</span>;
+subPaths = dir(mainPath);
+speedPattern = <span class="string">'Speed_[0-9]*\.mat$'</span>;
+colors = [<span class="string">'r'</span>, <span class="string">'g'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'y'</span>, <span class="string">'k'</span>, <span class="string">'m'</span>];
+markerChannel = 3;
+tdcChannel = 4;
+
+valuatedDistrib = [];
+
+saveToFileFlag = 1;
+info = [];
+</pre><h2>&#1054;&#1073;&#1088;&#1072;&#1073;&#1086;&#1090;&#1082;&#1072; &#1074;&#1089;&#1077;&#1093; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093; &#1089; &#1086;&#1090;&#1084;&#1077;&#1090;&#1095;&#1080;&#1082;&#1072;<a name="2"></a></h2><pre class="codeinput"><span class="comment">%&#1080;&#1076;&#1077;&#1084; &#1087;&#1086; &#1074;&#1089;&#1077;&#1084; &#1082;&#1072;&#1090;&#1072;&#1083;&#1086;&#1075;&#1072;&#1084; &#1074; &#1091;&#1082;&#1072;&#1079;&#1072;&#1085;&#1085;&#1086;&#1081; &#1076;&#1080;&#1088;&#1077;&#1082;&#1090;&#1086;&#1088;&#1080;&#1080;</span>
+<span class="keyword">for</span> i = 1:size(subPaths,1)
+    <span class="keyword">if</span> subPaths(i).isdir &amp;&amp; ~strcmp(subPaths(i).name,<span class="string">'.'</span>) &amp;&amp; ~strcmp(subPaths(i).name,<span class="string">'..'</span>)
+</pre><pre class="codeinput">        fullSubPath = [mainPath,subPaths(i).name];
+        files = dir(fullSubPath);
+        <span class="comment">%&#1088;&#1072;&#1089;&#1089;&#1084;&#1072;&#1090;&#1088;&#1080;&#1074;&#1072;&#1077;&#1084; &#1074;&#1085;&#1091;&#1090;&#1088;&#1080; &#1085;&#1077;&#1077; &#1074;&#1089;&#1077; &#1092;&#1072;&#1081;&#1083;&#1099;</span>
+        localDistrib = [];
+        localTDCDistrib = [];
+        separatedDistribs = [];
+        separatedTDCDistribs = [];
+        separatedValuatedDistribs = [];
+</pre><h2>&#1054;&#1073;&#1088;&#1072;&#1073;&#1086;&#1090;&#1082;&#1072; &#1074;&#1089;&#1077;&#1093; &#1092;&#1072;&#1081;&#1083;&#1086;&#1074; &#1074; &#1090;&#1077;&#1082;&#1091;&#1097;&#1077;&#1084; &#1082;&#1072;&#1090;&#1072;&#1083;&#1086;&#1075;&#1077;<a name="4"></a></h2><pre class="codeinput">        <span class="keyword">for</span> speedFile = 1:size(files,1)
+            <span class="comment">%&#1079;&#1072;&#1075;&#1088;&#1091;&#1078;&#1072;&#1077;&#1084; &#1092;&#1072;&#1081;&#1083;&#1099; &#1086;&#1090;&#1084;&#1077;&#1090;&#1095;&#1080;&#1082;&#1072;</span>
+            <span class="keyword">if</span> ~isempty(regexp(files(speedFile).name,speedPattern, <span class="string">'once'</span>))
+
+                load([fullSubPath,<span class="string">'/'</span>,files(speedFile).name]);
+
+                <span class="comment">%&#1074;&#1086;&#1089;&#1089;&#1090;&#1072;&#1085;&#1072;&#1074;&#1083;&#1080;&#1074;&#1072;&#1077;&#1084; &#1089;&#1080;&#1075;&#1085;&#1072;&#1083;&#1099;</span>
+                [markerTime markerVal] = restoreMarker(loadedFile.data(:,markerChannel)',2);
+                [tdcTime tdcVal] = restoreMarker(loadedFile.data(:,tdcChannel)',2);
+
+                <span class="comment">%&#1087;&#1086;&#1083;&#1091;&#1095;&#1072;&#1077;&#1084; &#1084;&#1086;&#1084;&#1077;&#1085;&#1090;&#1099; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1080;, &#1089;&#1086;&#1086;&#1090;&#1074;&#1091;&#1090;&#1089;&#1074;&#1091;&#1102;&#1097;&#1080;&#1077; &#1087;&#1077;&#1088;&#1077;&#1076;&#1085;&#1077;&#1084;&#1091; &#1092;&#1088;&#1086;&#1085;&#1090;&#1091;</span>
+                <span class="comment">%&#1089;&#1080;&#1075;&#1085;&#1072;&#1083;&#1072; &#1086;&#1090;&#1084;&#1077;&#1090;&#1095;&#1080;&#1082;&#1072;</span>
+                leTime = diff(markerTime(markerVal&gt;mean(markerVal)))./loadedFile.frequency;
+                tdcLeTime = diff(tdcTime(tdcVal&gt;0)/loadedFile.frequency);
+                localDistrib = [localDistrib leTime];
+                distr.time = leTime;
+                separatedDistribs = [separatedDistribs distr];
+                localTDCDistrib = [localTDCDistrib tdcLeTime];
+                distr.time = tdcLeTime;
+                separatedTDCDistribs = [separatedTDCDistribs distr];
+                <span class="comment">%&#1085;&#1086;&#1088;&#1084;&#1080;&#1088;&#1091;&#1077;&#1084; &#1074;&#1088;&#1077;&#1084;&#1103; &#1084;&#1077;&#1078;&#1076;&#1091; &#1092;&#1088;&#1086;&#1085;&#1090;&#1072;&#1084;&#1080; &#1080; &#1085;&#1072;&#1093;&#1086;&#1076;&#1080;&#1084; &#1087;&#1072;&#1088;&#1072;&#1084;&#1077;&#1090;&#1088;&#1099;</span>
+                <span class="comment">%&#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1103;</span>
+                valuatedLeTime = getValuatedDuration(markerTime(markerVal&gt;mean(markerVal)), tdcTime(tdcVal&gt;0));
+                valuatedDistrib = [valuatedDistrib valuatedLeTime];
+                distr.time = valuatedLeTime;
+                separatedValuatedDistribs = [separatedValuatedDistribs distr];
+
+                <span class="comment">%&#1079;&#1072;&#1086;&#1083;&#1085;&#1103;&#1077;&#1084; &#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1091; &#1076;&#1083;&#1103; &#1089;&#1086;&#1093;&#1088;&#1072;&#1085;&#1077;&#1085;&#1080;&#1103;</span>
+                <span class="keyword">if</span> saveToFileFlag == 1
+                   stat.name = [fullSubPath,<span class="string">'/'</span>,files(speedFile).name];
+                   stat.restoredMarkerTime = markerTime;
+                   stat.restoredMarkerVal = markerVal;
+                   stat.restoredTDCTime = tdcTime;
+                   stat.restoredTDCVal = tdcVal;
+                   info = [info stat];
+                <span class="keyword">end</span>
+
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+</pre><h2>&#1042;&#1099;&#1074;&#1086;&#1076; &#1075;&#1088;&#1072;&#1092;&#1080;&#1082;&#1086;&#1074;, &#1093;&#1072;&#1088;&#1072;&#1082;&#1090;&#1077;&#1088;&#1080;&#1079;&#1091;&#1102;&#1097;&#1080;&#1093; &#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1077; &#1074;&#1088;&#1077;&#1084;&#1077;&#1085;&#1080; &#1076;&#1083;&#1103;<a name="5"></a></h2><h2>&#1090;&#1077;&#1082;&#1091;&#1097;&#1077;&#1075;&#1086; &#1088;&#1077;&#1078;&#1080;&#1084;&#1072;<a name="6"></a></h2><pre class="codeinput">        <span class="comment">%&#1074;&#1099;&#1074;&#1086;&#1076;&#1080;&#1084; &#1089;&#1077;&#1088;&#1080;&#1102; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1081; &#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1103;</span>
+        figure
+        hold <span class="string">on</span>
+        colorIndex = 0;
+        <span class="keyword">for</span> d=1:length(separatedDistribs)
+           [f,x] = ecdf(separatedDistribs(d).time);
+           stairs(x,f,colors(1+mod(colorIndex,length(colors))));
+           colorIndex = colorIndex + 1;
+        <span class="keyword">end</span>
+        title([<span class="string">'F^*(x) '</span>,fullSubPath])
+        hold <span class="string">off</span>
+
+        <span class="comment">%&#1074;&#1099;&#1074;&#1086;&#1076;&#1080;&#1084; &#1089;&#1077;&#1088;&#1080;&#1102; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1081; &#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1103; &#1076;&#1083;&#1103; &#1085;&#1086;&#1088;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1085;&#1099;&#1093;</span>
+        <span class="comment">%&#1076;&#1083;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;&#1089;&#1090;&#1077;&#1081;</span>
+        figure
+        hold <span class="string">on</span>
+        colorIndex = 0;
+        <span class="keyword">for</span> d=1:length(separatedValuatedDistribs)
+           [f,x] = ecdf(separatedValuatedDistribs(d).time);
+           stairs(x,f,colors(1+mod(colorIndex,length(colors))));
+           colorIndex = colorIndex + 1;
+        <span class="keyword">end</span>
+        title([<span class="string">'F^*(x_v) '</span>,fullSubPath])
+        hold <span class="string">off</span>
+
+        <span class="comment">%&#1074;&#1099;&#1074;&#1086;&#1076;&#1080;&#1084; &#1075;&#1080;&#1089;&#1090;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1091;</span>
+        figure
+        hold <span class="string">on</span>
+        [f,x] = ecdf(localDistrib);
+        ecdfhist(f,x)
+        title([<span class="string">'f^*(x) '</span>,fullSubPath])
+        hold <span class="string">off</span>
+
+        <span class="comment">%&#1074;&#1099;&#1074;&#1086;&#1076;&#1080;&#1084; &#1089;&#1077;&#1088;&#1080;&#1102; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1081; &#1088;&#1072;&#1089;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085;&#1080;&#1103; &#1076;&#1083;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;&#1089;&#1090;&#1077;&#1081; &#1042;&#1052;&#1058;</span>
+        figure
+        hold <span class="string">on</span>
+        colorIndex = 0;
+        <span class="keyword">for</span> d=1:length(separatedTDCDistribs)
+           [f,x] = ecdf(separatedTDCDistribs(d).time);
+           stairs(x,f,colors(1+mod(colorIndex,length(colors))));
+           colorIndex = colorIndex + 1;
+        <span class="keyword">end</span>
+        title([<span class="string">'F^*(tdc) '</span>,fullSubPath])
+        hold <span class="string">off</span>
+
+        <span class="comment">%&#1074;&#1099;&#1074;&#1086;&#1076;&#1080;&#1084; &#1075;&#1080;&#1089;&#1090;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1091; &#1076;&#1083;&#1103; &#1042;&#1052;&#1058;</span>
+        figure
+        hold <span class="string">on</span>
+        [f,x] = ecdf(localTDCDistrib);
+        ecdfhist(f,x)
+        title([<span class="string">'f^*(tdc_{\Sigma}) '</span>,fullSubPath])
+        hold <span class="string">off</span>
+</pre><img vspace="5" hspace="5" src="processMarker_01.png" alt=""> <img vspace="5" hspace="5" src="processMarker_02.png" alt=""> <img vspace="5" hspace="5" src="processMarker_03.png" alt=""> <img vspace="5" hspace="5" src="processMarker_04.png" alt=""> <img vspace="5" hspace="5" src="processMarker_05.png" alt=""> <img vspace="5" hspace="5" src="processMarker_06.png" alt=""> <img vspace="5" hspace="5" src="processMarker_07.png" alt=""> <img vspace="5" hspace="5" src="processMarker_08.png" alt=""> <img vspace="5" hspace="5" src="processMarker_09.png" alt=""> <img vspace="5" hspace="5" src="processMarker_10.png" alt=""> <img vspace="5" hspace="5" src="processMarker_11.png" alt=""> <img vspace="5" hspace="5" src="processMarker_12.png" alt=""> <img vspace="5" hspace="5" src="processMarker_13.png" alt=""> <img vspace="5" hspace="5" src="processMarker_14.png" alt=""> <img vspace="5" hspace="5" src="processMarker_15.png" alt=""> <img vspace="5" hspace="5" src="processMarker_16.png" alt=""> <img vspace="5" hspace="5" src="processMarker_17.png" alt=""> <img vspace="5" hspace="5" src="processMarker_18.png" alt=""> <img vspace="5" hspace="5" src="processMarker_19.png" alt=""> <img vspace="5" hspace="5" src="processMarker_20.png" alt=""> <img vspace="5" hspace="5" src="processMarker_21.png" alt=""> <img vspace="5" hspace="5" src="processMarker_22.png" alt=""> <img vspace="5" hspace="5" src="processMarker_23.png" alt=""> <img vspace="5" hspace="5" src="processMarker_24.png" alt=""> <img vspace="5" hspace="5" src="processMarker_25.png" alt=""> <img vspace="5" hspace="5" src="processMarker_26.png" alt=""> <img vspace="5" hspace="5" src="processMarker_27.png" alt=""> <img vspace="5" hspace="5" src="processMarker_28.png" alt=""> <img vspace="5" hspace="5" src="processMarker_29.png" alt=""> <img vspace="5" hspace="5" src="processMarker_30.png" alt=""> <pre class="codeinput">    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> saveToFileFlag == 1
+   save(<span class="string">'speedParams'</span>,<span class="string">'info'</span>);
+<span class="keyword">end</span>
+
+save(<span class="string">'valuatedDistrib'</span>,<span class="string">'valuatedDistrib'</span>);
+</pre><h2>&#1042;&#1099;&#1074;&#1086;&#1076; &#1075;&#1080;&#1089;&#1090;&#1086;&#1075;&#1088;&#1072;&#1084;&#1084;&#1099; &#1076;&#1083;&#1103; &#1085;&#1086;&#1088;&#1084;&#1080;&#1088;&#1086;&#1074;&#1072;&#1085;&#1085;&#1099;&#1093; &#1076;&#1072;&#1085;&#1085;&#1099;&#1093;, &#1089;&#1086;&#1073;&#1088;&#1072;&#1085;&#1085;&#1099;&#1093; &#1076;&#1083;&#1103; &#1074;&#1089;&#1077;&#1093; &#1088;&#1077;&#1078;&#1080;&#1084;&#1086;&#1074;<a name="8"></a></h2><pre class="codeinput">figure
+hold <span class="string">on</span>
+[f,x] = ecdf(valuatedDistrib);
+ecdfhist(f,x)
+normx = min(valuatedDistrib):((max(valuatedDistrib)-min(valuatedDistrib))/100):max(valuatedDistrib);
+plot(normx,normpdf(normx,mean(valuatedDistrib),sqrt(var(valuatedDistrib))),<span class="string">'r'</span>)
+title(<span class="string">'f^*(x_{\Sigma v})'</span>)
+hold <span class="string">off</span>
+
+sprintf(<span class="string">'Mean: %e'</span>,mean(valuatedDistrib))
+sprintf(<span class="string">'Variance: %e'</span>,var(valuatedDistrib))
+</pre><pre class="codeoutput">
+ans =
+
+Mean: 6.944448e-04
+
+
+ans =
+
+Variance: 1.430661e-09
+
+</pre><img vspace="5" hspace="5" src="processMarker_31.png" alt=""> <p class="footer"><br>
+      Published with MATLAB&reg; 7.10<br></p></div><!--
+##### SOURCE BEGIN #####
+%% Построение графиков распределения времени между передними фронтами волны
+%% отметчика
+
+mainPath = '/home/nerh/sent/ConvertedData/';
+subPaths = dir(mainPath);
+speedPattern = 'Speed_[0-9]*\.mat$';
+colors = ['r', 'g', 'b', 'c', 'y', 'k', 'm'];
+markerChannel = 3;
+tdcChannel = 4;
+
+valuatedDistrib = [];
+
+saveToFileFlag = 1;
+info = [];
+
+%% Обработка всех данных с отметчика
+%идем по всем каталогам в указанной директории
+for i = 1:size(subPaths,1)
+    if subPaths(i).isdir && ~strcmp(subPaths(i).name,'.') && ~strcmp(subPaths(i).name,'..')
+        fullSubPath = [mainPath,subPaths(i).name];
+        files = dir(fullSubPath);
+        %рассматриваем внутри нее все файлы
+        localDistrib = [];
+        localTDCDistrib = [];
+        separatedDistribs = [];
+        separatedTDCDistribs = [];
+        separatedValuatedDistribs = [];
+        %% Обработка всех файлов в текущем каталоге
+        for speedFile = 1:size(files,1)
+            %загружаем файлы отметчика
+            if ~isempty(regexp(files(speedFile).name,speedPattern, 'once'))
+
+                load([fullSubPath,'/',files(speedFile).name]);
+                
+                %восстанавливаем сигналы
+                [markerTime markerVal] = restoreMarker(loadedFile.data(:,markerChannel)',2);
+                [tdcTime tdcVal] = restoreMarker(loadedFile.data(:,tdcChannel)',2);
+                
+                %получаем моменты времени, соотвутсвующие переднему фронту
+                %сигнала отметчика
+                leTime = diff(markerTime(markerVal>mean(markerVal)))./loadedFile.frequency;
+                tdcLeTime = diff(tdcTime(tdcVal>0)/loadedFile.frequency);
+                localDistrib = [localDistrib leTime];
+                distr.time = leTime;
+                separatedDistribs = [separatedDistribs distr];
+                localTDCDistrib = [localTDCDistrib tdcLeTime];
+                distr.time = tdcLeTime;
+                separatedTDCDistribs = [separatedTDCDistribs distr];
+                %нормируем время между фронтами и находим параметры
+                %распределения
+                valuatedLeTime = getValuatedDuration(markerTime(markerVal>mean(markerVal)), tdcTime(tdcVal>0));
+                valuatedDistrib = [valuatedDistrib valuatedLeTime];
+                distr.time = valuatedLeTime;
+                separatedValuatedDistribs = [separatedValuatedDistribs distr];
+                
+                %заолняем структуру для сохранения
+                if saveToFileFlag == 1
+                   stat.name = [fullSubPath,'/',files(speedFile).name]; 
+                   stat.restoredMarkerTime = markerTime;
+                   stat.restoredMarkerVal = markerVal;
+                   stat.restoredTDCTime = tdcTime;
+                   stat.restoredTDCVal = tdcVal;
+                   info = [info stat];
+                end
+                
+            end
+        end
+        %% Вывод графиков, характеризующих распределение времени для
+        %% текущего режима
+        %выводим серию функций распределения
+        figure
+        hold on
+        colorIndex = 0;
+        for d=1:length(separatedDistribs)
+           [f,x] = ecdf(separatedDistribs(d).time);
+           stairs(x,f,colors(1+mod(colorIndex,length(colors))));
+           colorIndex = colorIndex + 1;
+        end
+        title(['F^*(x) ',fullSubPath])
+        hold off
+        
+        %выводим серию функций распределения для нормированных
+        %длительностей
+        figure
+        hold on
+        colorIndex = 0;
+        for d=1:length(separatedValuatedDistribs)
+           [f,x] = ecdf(separatedValuatedDistribs(d).time);
+           stairs(x,f,colors(1+mod(colorIndex,length(colors))));
+           colorIndex = colorIndex + 1;
+        end
+        title(['F^*(x_v) ',fullSubPath])
+        hold off
+        
+        %выводим гистограмму
+        figure
+        hold on
+        [f,x] = ecdf(localDistrib);
+        ecdfhist(f,x)
+        title(['f^*(x) ',fullSubPath])
+        hold off
+        
+        %выводим серию функций распределения длительностей ВМТ
+        figure
+        hold on
+        colorIndex = 0;
+        for d=1:length(separatedTDCDistribs)
+           [f,x] = ecdf(separatedTDCDistribs(d).time);
+           stairs(x,f,colors(1+mod(colorIndex,length(colors))));
+           colorIndex = colorIndex + 1;
+        end
+        title(['F^*(tdc) ',fullSubPath])
+        hold off
+        
+        %выводим гистограмму для ВМТ
+        figure
+        hold on
+        [f,x] = ecdf(localTDCDistrib);
+        ecdfhist(f,x)
+        title(['f^*(tdc_{\Sigma}) ',fullSubPath])
+        hold off
+    end
+end
+
+if saveToFileFlag == 1
+   save('speedParams','info'); 
+end
+
+save('valuatedDistrib','valuatedDistrib');
+
+%% Вывод гистограммы для нормированных данных, собранных для всех режимов
+figure
+hold on
+[f,x] = ecdf(valuatedDistrib);
+ecdfhist(f,x)
+normx = min(valuatedDistrib):((max(valuatedDistrib)-min(valuatedDistrib))/100):max(valuatedDistrib);
+plot(normx,normpdf(normx,mean(valuatedDistrib),sqrt(var(valuatedDistrib))),'r')
+title('f^*(x_{\Sigma v})')
+hold off
+
+sprintf('Mean: %e',mean(valuatedDistrib))
+sprintf('Variance: %e',var(valuatedDistrib))
+
+
+
+##### SOURCE END #####
+--></body></html>
